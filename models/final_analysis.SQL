@@ -1,0 +1,31 @@
+WITH STG_NETFLIXTABLE AS (
+    SELECT
+        TYPE,
+        TITLE,
+        COUNTRY,
+        RELEASE_YEAR,
+        DURATION
+    FROM {{ source('netflix', 'NETFLIXTABLE') }}
+),
+
+STG_IMDBTABLE AS (
+    SELECT
+        CERTIFICATE,
+        SERIES_TILE AS SERIES_TITLES,
+        IMDB_RATING,
+        META_SCORE
+    FROM {{ source('netflix', 'IMDBTABLE') }}
+)
+
+SELECT
+    n.TYPE,
+    n.TITLE,
+    n.COUNTRY,
+    n.RELEASE_YEAR,
+    n.DURATION,
+    i.CERTIFICATE,
+    i.IMDB_RATING,
+    i.META_SCORE
+FROM STG_NETFLIXTABLE n
+INNER JOIN STG_IMDBTABLE i
+    ON n.TITLE = i.SERIES_TITLES
