@@ -5,7 +5,7 @@ WITH STG_NETFLIXTABLE AS (
         COUNTRY,
         RELEASE_YEAR,
         DURATION
-    FROM {{ source('netflix', 'NETFLIXTABLE') }}
+    FROM {{ ref('STG_NETFLIXTABLE') }}
 ),
 
 STG_IMDBTABLE AS (
@@ -14,7 +14,7 @@ STG_IMDBTABLE AS (
         SERIES_TILE AS SERIES_TITLES,
         IMDB_RATING,
         META_SCORE
-    FROM {{ source('netflix', 'IMDBTABLE') }}
+    FROM {{ ref('STG_IMDBTABLE') }}
 )
 
 SELECT
